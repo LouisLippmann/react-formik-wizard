@@ -1,96 +1,99 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { Header } from './Header';
-import { Button } from '@material-ui/core';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as yup from 'yup';
 
-const useStyles = makeStyles(theme => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
-
 const validationSchema = yup.object({
-  firstName: yup
-    .string()
-    .required('First Name is required')
-    .max(20),
-  lastName: yup
-    .string()
-    .required('Last Name is required')
-    .max(20),
-  email: yup
-    .string()
-    .email('Invalid email')
-    .required('Email is required')
+    firstName: yup
+        .string()
+        .required('Vorname wird benötigt.'),
+    lastName: yup
+        .string()
+        .required('Nachname wird benötigt.'),
+    email: yup
+        .string()
+        .email('Die E-Mail-Adresse ist ungültig.')
+        .required('E-Mail wird benötigt.'),
+    mobile: yup
+        .string()
+        .required('Mobilnummer wird benötigt.')
+        .matches(/([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/, 'Mobilnummer ungültig'),
 });
 
-export const FormUserDetails = ({ formData, setFormData, nextStep }) => {
-  const classes = useStyles();
-  return (
-    <>
-      <Header title='Enter User Details' />
-      <Formik
-        initialValues={formData}
-        onSubmit={values => {
-          setFormData(values);
-          nextStep();
-        }}
-        validationSchema={validationSchema}
-      >
-        {({ errors, touched }) => (
-          <Form className={classes.form}>
-            <Field
-              name='firstName'
-              label='First Name *'
-              margin='normal'
-              as={TextField}
-              error={touched.firstName && errors.firstName}
-              helperText={touched.firstName && errors.firstName}
-            />
-            <Field
-              name='lastName'
-              label='Last Name *'
-              margin='normal'
-              as={TextField}
-              error={touched.lastName && errors.lastName}
-              helperText={touched.lastName && errors.lastName}
-            />
-            <Field
-              type='email'
-              name='email'
-              label='Email *'
-              margin='normal'
-              as={TextField}
-              error={touched.email && errors.email}
-              helperText={touched.email && errors.email}
-            />
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              className={classes.button}
-            >
-              Continue
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </>
-  );
-};
-
-FormUserDetails.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired
+export const FormUserDetails = ({
+                                    userData,
+                                    setUserData,
+                                    nextStep,
+                                    prevStep
+                                }) => {
+    return (
+        <>
+                <div className="container">
+                    <Formik
+                        initialValues={userData}
+                        onSubmit={values => {
+                            setUserData(values);
+                            nextStep();
+                        }}
+                        validateOnChange={false}
+                        validateOnBlur={false}
+                        validationSchema={validationSchema}
+                    >
+                        {({errors, touched}) => (
+                            <Form>
+                                <h2>
+                                    Kontaktinformationen
+                                </h2>
+                                <div className="field">
+                                    <label className="error-message"><ErrorMessage className="error-message" name="firstName"/></label>
+                                    <Field
+                                        className="field__input"
+                                        name='firstName'
+                                        label='Vorname *'
+                                        placeholder='Vorname *'
+                                        error={touched.firstName && errors.firstName}
+                                    />
+                                </div>
+                                <div className="field">
+                                    <label className="error-message"><ErrorMessage className="error-message" name="lastName"/></label>
+                                    <Field
+                                        className="field__input"
+                                        name='lastName'
+                                        label='Nachname *'
+                                        placeholder='Nachname *'
+                                        error={touched.lastName && errors.lastName}
+                                    />
+                                </div>
+                                <div className="field">
+                                    <label className="error-message"><ErrorMessage className="error-message" name="email"/></label>
+                                    <Field
+                                        className="field__input"
+                                        type='email'
+                                        name='email'
+                                        label='E-Mail *'
+                                        placeholder="E-Mail *"
+                                        error={touched.email && errors.email}
+                                    />
+                                </div>
+                                <div className="field">
+                                    <label className="error-message"><ErrorMessage className="error-message" name="mobile"/></label>
+                                    <Field
+                                        className="field__input"
+                                        type='mobile'
+                                        name='mobile'
+                                        label='Mobilnummer *'
+                                        placeholder="Mobilnummer *"
+                                        error={touched.mobile && errors.mobile}
+                                    />
+                                </div>
+                                <div>
+                                    <button className="btn btn-for" type="submit">
+                                        weiter
+                                    </button>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
+        </>
+    );
 };

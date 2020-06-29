@@ -1,96 +1,49 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import { List, ListItem, ListItemText } from '@material-ui/core/';
-import { Header } from './Header';
 
-const useStyles = makeStyles(theme => ({
-  textCenter: {
-    textAlign: 'center'
-  },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
-
-export const Confirm = ({ formData, prevStep, nextStep }) => {
-  const classes = useStyles();
-  const { firstName, lastName, email, occupation, city, bio } = formData;
-  return (
-    <>
-      <Header title='Confirm User Data' />
-      <div>
-        <List>
-          <ListItem>
-            <ListItemText
-              primary='First Name'
-              secondary={firstName}
-              className={classes.textCenter}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary='Last Name'
-              secondary={lastName}
-              className={classes.textCenter}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary='Email'
-              secondary={email}
-              className={classes.textCenter}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary='Occupation'
-              secondary={occupation}
-              className={classes.textCenter}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary='City'
-              secondary={city}
-              className={classes.textCenter}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary='Bio'
-              secondary={bio}
-              className={classes.textCenter}
-            />
-          </ListItem>
-        </List>
-        <div className={classes.textCenter}>
-          <Button
-            color='secondary'
-            variant='contained'
-            className={classes.button}
-            onClick={() => prevStep()}
-          >
-            Back
-          </Button>
-
-          <Button
-            color='primary'
-            variant='contained'
-            className={classes.button}
-            onClick={() => nextStep()}
-          >
-            Confirm & Continue
-          </Button>
-        </div>
-      </div>
-    </>
-  );
-};
-
-Confirm.propTypes = {
-  formData: PropTypes.object.isRequired,
-  prevStep: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired
+export const Confirm = ({userData, prevStep, nextStep}) => {
+    return (
+        <>
+            <div className="container">
+                <ul className="confirm-list">
+                    <li>
+                        <h3>Vorname</h3>
+                        <span>{userData.firstName}</span>
+                    </li>
+                    <li>
+                        <h3>Nachname</h3>
+                        <span>{userData.lastName}</span>
+                    </li>
+                    <li>
+                        <h3>E-Mail</h3>
+                        <span>{userData.email}</span>
+                    </li>
+                    <li>
+                        <h3>Mobilnummer</h3>
+                        <span>{userData.mobile}</span>
+                    </li>
+                    <li>
+                        <h3>Adresse</h3>
+                        <span>{userData.address}</span>
+                    </li>
+                    <li>
+                        <h3>PLZ</h3>
+                        <span>{userData.postcode}</span>
+                    </li>
+                    <li>
+                        <h3>Stadt</h3>
+                        <span>{userData.city}</span>
+                    </li>
+                </ul>
+                <div>
+                    <button className="btn btn-for" onClick={() => nextStep()}
+                    >
+                        weiter
+                    </button>
+                    <button className="btn btn-back" onClick={() => prevStep()}>
+                        zurück
+                    </button>
+                </div>
+            </div>
+        </>
+    );
 };

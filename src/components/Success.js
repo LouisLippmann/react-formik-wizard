@@ -1,20 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Header } from './Header';
 
-const useStyles = makeStyles(theme => ({
-  textCenter: {
-    textAlign: 'center'
-  }
-}));
+
 
 export const Success = () => {
-  const classes = useStyles();
   return (
-    <div className={classes.textCenter}>
-      <Header title='Success' />
-      <h1>Thank You For Your Submission</h1>
-      <p>You will get an email with further instructions</p>
+    <div className="container">
+      <h1>Vielen Dank für deine Anmeldung</h1>
+      <p>Du erhältst in kürze eine Mail mit weiteren Informationen!</p>
     </div>
   );
 };
